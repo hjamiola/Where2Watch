@@ -2,6 +2,7 @@ package com.example.where2watch.ui.adapter;// MovieAdapter.java
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -33,6 +34,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.titleTextView.setText(movie.getTitle());
         holder.genreTextView.setText(movie.getGenre());
         holder.ratingBar.setRating(movie.getRating());
+        holder.coverImageView.setImageResource(movie.getImageResId()); // Set the image resource
+
     }
 
     @Override
@@ -43,12 +46,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, genreTextView;
         RatingBar ratingBar;
+        ImageView coverImageView; // Add this field
+
 
         public MovieViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.movie_title);
             genreTextView = itemView.findViewById(R.id.movie_genre);
             ratingBar = itemView.findViewById(R.id.movie_rating);
+            coverImageView = itemView.findViewById(R.id.movie_cover); // Initialize the ImageView
         }
     }
 }

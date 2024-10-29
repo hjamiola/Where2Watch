@@ -6,7 +6,7 @@ public class Movie {
     private float rating;
     private int imageResId;
 
-    public Movie(String title, String genre, float rating) {
+    public Movie(String title, String genre, float rating, int imageResId) {
         this.title = title;
         this.genre = genre;
         this.rating = rating;
