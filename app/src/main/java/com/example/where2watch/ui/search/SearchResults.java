@@ -1,6 +1,7 @@
 package com.example.where2watch.ui.search;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,11 +84,16 @@ public class SearchResults extends Fragment {
 
         // Filter the movie list based on selectedItems
         if (selectedItems != null && !selectedItems.isEmpty()) {
-            movieList.removeIf(movie -> !selectedItems.contains(movie.getGenre()));
+            movieList.removeIf(movie -> !selectedItems.contains(movie.getPlatform()));
         }
 
         // Initialize VersionsAdapter before using it
         movieAdapter = new MovieAdapter(movieList);
+
+        // Log the contents of the movie list
+        for (Movie movie : movieList) {
+            Log.d("MovieList", "Title: " + movie.getTitle() + ", Genre: " + movie.getGenre() + ", Rating: " + movie.getRating());
+        }
 
         //recyclerView.setAdapter(movieAdapter);
 
