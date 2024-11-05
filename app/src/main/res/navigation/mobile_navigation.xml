@@ -12,6 +12,11 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_search_results"
+        android:name="com.example.where2watch.ui.search.SearchResults"
+        tools:layout="@layout/fragment_search_results" />
+
+    <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.where2watch.ui.recommended.RecommendedFragment"
         android:label="@string/menu_recommended"
@@ -22,4 +27,8 @@
         android:name="com.example.where2watch.ui.topTen.TopTenFragment"
         android:label="@string/menu_topTen"
         tools:layout="@layout/fragment_slideshow" />
+
+    <action
+        android:id="@+id/action_searchFragment_to_searchResultsFragment"
+        app:destination="@id/nav_search_results" />
 </navigation>
