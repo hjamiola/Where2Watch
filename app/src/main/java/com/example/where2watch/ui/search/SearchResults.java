@@ -93,17 +93,17 @@ public class SearchResults extends Fragment {
         platformList = new ArrayList<>();
         platformList.add(new Platform("Netflix", "Included in Subscription", "https://www.netflix.com", R.drawable.netflix));
         platformList.add(new Platform("Hulu", "Included in Subscription", "https://www.hulu.com", R.drawable.hulu));
-        platformList.add(new Platform("Amazon Prime Video", "Paid", "https://www.amazon.com", R.drawable.prime));
+        platformList.add(new Platform("Amazon", "Paid", "https://www.amazon.com", R.drawable.prime));
         platformList.add(new Platform("Disney+", "Included in Subscription", "https://www.disneyplus.com", R.drawable.disney));
         platformList.add(new Platform("Apple TV", "Paid", "https://www.apple.com", R.drawable.apple));
-        platformList.add(new Platform("Paramount+", "Paid", "https://www.paramountplus.com", R.drawable.paramount));
+        platformList.add(new Platform("Paramount Plus", "Included in Subscription", "https://www.paramountplus.com", R.drawable.paramount));
 
         Platform nullDatabase = new Platform("Movie Not in Database", "", "", R.drawable.no_results);
         Platform nullPlatform = new Platform("Movie Not on Selected Platform", "", "", R.drawable.no_results);
 
         // Filter the movie list based on searchQuery
         if (searchQuery != null && !searchQuery.isEmpty()) {
-            movieList.removeIf(movie -> !movie.getTitle().equalsIgnoreCase(searchQuery));
+            movieList.removeIf(movie -> !movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase().trim()));
         }
 
         // Create a set of all platforms from the filtered movie list
@@ -126,6 +126,25 @@ public class SearchResults extends Fragment {
         }
         if(platformList.isEmpty()) {
             platformList.add(nullPlatform);
+        }
+
+        for (Movie movie : movieList) {
+            String[] platforms = movie.getPlatform();
+            String[] prices = movie.getPrice();
+
+            for (int i = 0; i < platforms.length; i++) {
+                String platformName = platforms[i];
+                String price = prices[i];
+
+                for (Platform platform : platformList) {
+                    if (platform.getPlatform().equalsIgnoreCase("Amazon") && platformName.equalsIgnoreCase("Amazon")) {
+                        platform.setPrice(price);
+                        Log.d("PlatformUpdate", "Updated Amazon Prime Video price to: " + price);
+                    } else if (platform.getPlatform().equalsIgnoreCase("Apple TV") && platformName.equalsIgnoreCase("Apple TV")) {
+                        platform.setPrice(price);
+                    }
+                }
+            }
         }
 
         // Initialize VersionsAdapter before using it
