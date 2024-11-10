@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.where2watch.R;
 import com.example.where2watch.databinding.FragmentHomeBinding;
 import com.example.where2watch.ui.adapter.MovieAdapter;
+import com.example.where2watch.ui.adapter.PlatformAdapter;
 import com.example.where2watch.ui.model.Movie;
+import com.example.where2watch.ui.model.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class SearchResults extends Fragment {
     private FragmentHomeBinding binding;
     private MovieAdapter movieAdapter;
     private List<Movie> movieList;
+    private List<Platform> platformList;
+    private PlatformAdapter platformAdapter;
     private RecyclerView recyclerView;
     String searchQuery;
     ArrayList<String> selectedItems;
@@ -81,6 +85,9 @@ public class SearchResults extends Fragment {
         movieList.add(new Movie("#8 Crazy Rich Asians", "Romantic Comedy", new String[]{""}, 3.5f, R.drawable.crazy_rich_asians));
         movieList.add(new Movie("#9 How to Lose a Guy in 10 Days", "Romantic Comedy", new String[]{""}, 3.5f, R.drawable.how_to_lose_a_guy));
         movieList.add(new Movie("#10 10 Things I Hate About You", "Romantic Comedy", new String[]{""}, 3.0f, R.drawable.ten_things));
+
+        platformList = new ArrayList<>();
+
 
         // Filter the movie list based on selectedItems
         if (selectedItems != null && !selectedItems.isEmpty()) {

@@ -54,7 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             titleTextView = itemView.findViewById(R.id.movie_title);
             genreTextView = itemView.findViewById(R.id.movie_genre);
             ratingBar = itemView.findViewById(R.id.movie_rating);
-            coverImageView = itemView.findViewById(R.id.movie_cover); // Initialize the ImageView
+            coverImageView = itemView.findViewById(R.id.platform_image); // Initialize the ImageView
         }
     }
 }
