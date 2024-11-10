@@ -26,9 +26,10 @@
         android:id="@+id/nav_slideshow"
         android:name="com.example.where2watch.ui.topTen.TopTenFragment"
         android:label="@string/menu_topTen"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_topten" />
 
     <action
         android:id="@+id/action_searchFragment_to_searchResultsFragment"
         app:destination="@id/nav_search_results" />
+
 </navigation>
