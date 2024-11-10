@@ -43,7 +43,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        String[] item = {"Disney+", "Hulu", "Peacock", "Netflix"};
+        String[] item = {"Disney+", "Hulu", "Netflix", "Amazon Prime Video", "Apple TV", "Paramount+"};
 
         autoCompleteTextView = view.findViewById(R.id.auto_complete_txt);
         adapterItems = new ArrayAdapter<>(requireContext(), R.layout.filter_list_item, item);
@@ -93,6 +93,10 @@ public class SearchFragment extends Fragment {
 
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_searchFragment_to_searchResultsFragment, bundle);
+
+                selectedItems.clear();
+                chipGroup.removeAllViews();
+
                 return false;
             }
 

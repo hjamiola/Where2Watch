@@ -26,6 +26,10 @@ public class Platform {
         return price;
     }
 
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     public String getUrl() {
         return url;
     }

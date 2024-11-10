@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.where2watch.R;
@@ -20,7 +21,9 @@ import com.example.where2watch.ui.model.Movie;
 import com.example.where2watch.ui.model.Platform;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SearchResults extends Fragment {
 
@@ -57,52 +60,84 @@ public class SearchResults extends Fragment {
             search_results.setText("No search results");
         }
 
-        //recyclerView = view.findViewById(R.id.RecyclerView);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView = view.findViewById(R.id.RecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         initData();
 
         // Initialize data
-        //SetRecyclerView();
+        SetRecyclerView();
     }
 
     private void SetRecyclerView() {
         //VersionsAdapter versionsAdapter = new VersionsAdapter(versionsList, requireContext());
-        recyclerView.setAdapter(movieAdapter);
+        recyclerView.setAdapter(platformAdapter);
         recyclerView.setHasFixedSize(true);
     }
     private void initData() {
 
         // Initialize movie list and add movies
         movieList = new ArrayList<>();
-        movieList.add(new Movie("#1 Grown Ups", "Comedy", new String[]{""},5.0f, R.drawable.grown_ups));
-        movieList.add(new Movie("#2 Forrest Gump", "Drama", new String[]{""}, 5.0f, R.drawable.forrest_gump));
-        movieList.add(new Movie("#3 Interstellar", "Science Fiction", new String[]{""}, 4.5f, R.drawable.interstellar));
-        movieList.add(new Movie("#4 The Lion King", "Children's Animation",new String[]{""}, 4.5f, R.drawable.lion_king));
-        movieList.add(new Movie("#5 Ferris Bueller's Day Off", "Comedy",new String[]{""}, 4.5f, R.drawable.ferris));
-        movieList.add(new Movie("#6 Dumb and Dumber", "Comedy", new String[]{""},4.0f, R.drawable.dumb_dumber));
-        movieList.add(new Movie("#7 Step Brothers", "Comedy", new String[]{""},3.5f, R.drawable.step_brothers));
-        movieList.add(new Movie("#8 Crazy Rich Asians", "Romantic Comedy", new String[]{""}, 3.5f, R.drawable.crazy_rich_asians));
-        movieList.add(new Movie("#9 How to Lose a Guy in 10 Days", "Romantic Comedy", new String[]{""}, 3.5f, R.drawable.how_to_lose_a_guy));
-        movieList.add(new Movie("#10 10 Things I Hate About You", "Romantic Comedy", new String[]{""}, 3.0f, R.drawable.ten_things));
+        movieList.add(new Movie("Grown Ups", "Comedy", new String[]{"Hulu", "Disney+", "Netflix"}, new String[]{"Free", "Free", "Free"}, 5.0f, R.drawable.grown_ups));
+        movieList.add(new Movie("Forrest Gump", "Drama", new String[]{"Paramount Plus", "Amazon"}, new String[]{"Free", "$3.99"}, 5.0f, R.drawable.forrest_gump));
+        movieList.add(new Movie("Interstellar", "Science Fiction", new String[]{"Paramount Plus", "Amazon"}, new String[]{"Free", "$2.50"}, 4.5f, R.drawable.interstellar));
+        movieList.add(new Movie("The Lion King", "Children's Animation",new String[]{"Disney+", "Amazon"}, new String[]{"Free", "$3.50"}, 4.5f, R.drawable.lion_king));
+        movieList.add(new Movie("Ferris Bueller's Day Off", "Comedy",new String[]{"Paramount Plus", "Amazon", "Apple TV"}, new String[]{"Free", "Free", "Free"}, 4.5f, R.drawable.ferris));
+        movieList.add(new Movie("Dumb and Dumber", "Comedy", new String[]{"Amazon", "Apple TV"}, new String[]{"$2.50", "$3.00"},4.0f, R.drawable.dumb_dumber));
+        movieList.add(new Movie("Step Brothers", "Comedy", new String[]{"Amazon", "Apple TV"}, new String[]{"$6.00", "$4.50"},3.5f, R.drawable.step_brothers));
+        movieList.add(new Movie("Crazy Rich Asians", "Romantic Comedy", new String[]{"Netflix"}, new String[]{"Free"}, 3.5f, R.drawable.crazy_rich_asians));
+        movieList.add(new Movie("How to Lose a Guy in 10 Days", "Romantic Comedy", new String[]{"Paramount Plus", "Amazon", "Apple TV"}, new String[]{"Free", "$2.99", "$3.99"}, 3.5f, R.drawable.how_to_lose_a_guy));
+        movieList.add(new Movie("10 Things I Hate About You", "Romantic Comedy", new String[]{"Disney+", "Hulu", "Amazon"}, new String[]{"Free", "Free", "$3.99"}, 3.0f, R.drawable.ten_things));
 
+        // Initialize platform list and add platforms
         platformList = new ArrayList<>();
+        platformList.add(new Platform("Netflix", "Included in Subscription", "https://www.netflix.com", R.drawable.netflix));
+        platformList.add(new Platform("Hulu", "Included in Subscription", "https://www.hulu.com", R.drawable.hulu));
+        platformList.add(new Platform("Amazon Prime Video", "Paid", "https://www.amazon.com", R.drawable.prime));
+        platformList.add(new Platform("Disney+", "Included in Subscription", "https://www.disneyplus.com", R.drawable.disney));
+        platformList.add(new Platform("Apple TV", "Paid", "https://www.apple.com", R.drawable.apple));
+        platformList.add(new Platform("Paramount+", "Paid", "https://www.paramountplus.com", R.drawable.paramount));
 
+        Platform nullDatabase = new Platform("Movie Not in Database", "", "", R.drawable.no_results);
+        Platform nullPlatform = new Platform("Movie Not on Selected Platform", "", "", R.drawable.no_results);
 
-        // Filter the movie list based on selectedItems
+        // Filter the movie list based on searchQuery
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            movieList.removeIf(movie -> !movie.getTitle().equalsIgnoreCase(searchQuery));
+        }
+
+        // Create a set of all platforms from the filtered movie list
+        Set<String> includedPlatforms = new HashSet<>();
+        for (Movie movie : movieList) {
+            for (String platform : movie.getPlatform()) {
+                includedPlatforms.add(platform);
+            }
+        }
+
+        // Remove any platforms from the platform list that are not in the includedPlatforms set (name)
+        platformList.removeIf(platform -> !includedPlatforms.contains(platform.getPlatform()));
+        if(platformList.isEmpty()) {
+            platformList.add(nullDatabase);
+        }
+
+        // Filter the platform list based on selectedItems
         if (selectedItems != null && !selectedItems.isEmpty()) {
-            movieList.removeIf(movie -> !selectedItems.contains(movie.getPlatform()));
+            platformList.removeIf(platform -> !selectedItems.contains(platform.getPlatform()));
+        }
+        if(platformList.isEmpty()) {
+            platformList.add(nullPlatform);
         }
 
         // Initialize VersionsAdapter before using it
         movieAdapter = new MovieAdapter(movieList);
+        platformAdapter = new PlatformAdapter(platformList, getContext());
 
         // Log the contents of the movie list
         for (Movie movie : movieList) {
             Log.d("MovieList", "Title: " + movie.getTitle() + ", Genre: " + movie.getGenre() + ", Rating: " + movie.getRating());
         }
 
-        //recyclerView.setAdapter(movieAdapter);
+        recyclerView.setAdapter(platformAdapter);
 
     }
 

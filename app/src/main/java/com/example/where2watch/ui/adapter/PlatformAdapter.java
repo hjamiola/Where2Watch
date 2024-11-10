@@ -1,5 +1,8 @@
 package com.example.where2watch.ui.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +19,11 @@ import java.util.List;
 
 public class PlatformAdapter extends RecyclerView.Adapter<PlatformAdapter.PlatformViewHolder> {
     private List<Platform> platformList;
+    private Context context;
 
-    public PlatformAdapter(List<Platform> platformList) {
+    public PlatformAdapter(List<Platform> platformList, Context context) {
         this.platformList = platformList;
+        this.context = context;
     }
 
     @NonNull
@@ -35,11 +40,17 @@ public class PlatformAdapter extends RecyclerView.Adapter<PlatformAdapter.Platfo
         holder.platformTextView.setText(platform.getPlatform());
         holder.priceTextView.setText(platform.getPrice());
         holder.platformImageView.setImageResource(platform.getImageResId());
+        holder.platformImageView.setOnClickListener(v -> onPlatformClicked(platform.getUrl()));
     }
 
     @Override
     public int getItemCount() {
         return platformList.size();
+    }
+
+    private void onPlatformClicked(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(intent);
     }
 
     public static class PlatformViewHolder extends RecyclerView.ViewHolder {
