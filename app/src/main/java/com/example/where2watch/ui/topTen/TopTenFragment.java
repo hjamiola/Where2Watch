@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.TextView;
+//import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+//import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+//import androidx.lifecycle.ViewModelProvider;
 import com.example.where2watch.R;
 
 import com.example.where2watch.databinding.FragmentToptenBinding;
@@ -22,7 +22,6 @@ import java.util.List;
 
 public class TopTenFragment extends Fragment {
 
-    private LinearLayout[] containers;
     private List<List<Movie>> movieLists;  // Array of movie lists
 
 
@@ -30,7 +29,7 @@ public class TopTenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topten, container, false);
-        containers = new LinearLayout[]{
+        LinearLayout[] containers = new LinearLayout[]{
                 view.findViewById(R.id.top_ten_container_action),
                 view.findViewById(R.id.top_ten_container_sci_fi),
                 view.findViewById(R.id.top_ten_container_horror)
@@ -96,7 +95,7 @@ public class TopTenFragment extends Fragment {
 
             cardView.setMovieImage(movie.getImageResId());
             cardView.setMovieTitle(movie.getTitle());
-            cardView.setMovieNumber(String.valueOf(i + 1) + ".");
+            cardView.setMovieNumber(i + 1 + ".");
 
             container.addView(cardView);
         }

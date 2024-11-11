@@ -71,13 +71,6 @@ public class TopTenCardView extends CardView {
             }
         }
     }
-    public void setMovieData(Movie movie, int position) {
-        if (movie != null) {
-            setMovieImage(movie.getImageResId());
-            setMovieTitle(movie.getTitle());
-            setMovieNumber(String.valueOf(position + 1) + ".");
-        }
-    }
 
     // Setter methods auto
     public void setMovieImage(int resId) {
@@ -89,10 +82,7 @@ public class TopTenCardView extends CardView {
     public void setMovieNumber(String number) {
         movieNumber.setText(number);
     }
-    public void setCardBackgroundTint(int color) {
-        movieCard.setCardBackgroundColor(color);
-    }
-    //getter methods auto
+    //getter methods auto. wont need this now since hardcoded.
     public ImageView getMovieImage() {
         return movieImage;
     }
