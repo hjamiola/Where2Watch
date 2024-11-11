@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MovieCardView">
+        <attr name="movieImage" format="reference"/>
+        <attr name="movieTitle" format="string"/>
+        <attr name="movieNumber" format="string"/>
+        <attr name="cardBackgroundTint" format="color"/>
+    </declare-styleable>
+</resources>
